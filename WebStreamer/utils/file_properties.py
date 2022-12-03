@@ -32,14 +32,7 @@ async def get_file_ids(client: Client, chat_id: int, message_id: int) -> Optiona
 
 def get_media_from_message(message: "Message") -> Any:
     media_types = (
-        "audio",
-        "document",
-        "photo",
-        "sticker",
-        "animation",
         "video",
-        "voice",
-        "video_note",
     )
     for attr in media_types:
         media = getattr(message, attr, None)
