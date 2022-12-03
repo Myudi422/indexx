@@ -18,12 +18,6 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
     & (
         filters.document
         | filters.video
-        | filters.audio
-        | filters.animation
-        | filters.voice
-        | filters.video_note
-        | filters.photo
-        | filters.sticker
     ),
     group=4,
 )
