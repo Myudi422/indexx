@@ -39,7 +39,7 @@ async def root_route_handler(_):
 async def stream_handler(request: web.Request):
     try:
         path = request.match_info["path"]
-        match = re.search(r"^([a-zA-Z0-9_-]{6})(\d+)$", path)
+        match = re.search(r"^([0-9a-f]{%s})(\d+)$" % (Var.HASH_LENGTH), path)
         if match:
             secure_hash = match.group(1)
             message_id = int(match.group(2))
@@ -79,7 +79,8 @@ async def media_streamer(request: web.Request, message_id: int, secure_hash: str
     file_id = await tg_connect.get_file_properties(message_id)
     logging.debug("after calling get_file_properties")
     
-    if file_id.unique_id[:6] != secure_hash:
+    
+    if utils.get_hash(file_id.unique_id, Var.HASH_LENGTH) != secure_hash:
         logging.debug(f"Invalid hash for message with ID {message_id}")
         raise InvalidHash
     
