@@ -1,11 +1,11 @@
-FROM python:3.9-alpine
+FROM nginx:latest
 
-WORKDIR /app
+# noop for legacy migration
+RUN mkdir /app && \
+    echo "#!/bin/bash" > /app/migrate.sh && \
+    chmod +x /app/migrate.sh
 
-COPY requirements.txt ./
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY html /usr/share/nginx/html
 
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-CMD ["python3","-m","WebStreamer"]
+EXPOSE 80
